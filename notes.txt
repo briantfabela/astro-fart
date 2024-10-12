@@ -1,0 +1,3 @@
+
+Directus API endpoint
+https://studio.chicalitimes.com/items/posts
