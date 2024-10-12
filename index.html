@@ -4,6 +4,17 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>API Response Test</title>
+    <script>
+        // Function to get environment variables from Vercel
+        function getEnvVariable(name) {
+            return window.__ENV__[name];
+        }
+
+        // Set the environment variables (this would be done by Vercel)
+        window.__ENV__ = {
+            NEXT_PUBLIC_API_TOKEN: 'YOUR_ACCESS_TOKEN' // Replace with your actual token
+        };
+    </script>
 </head>
 <body>
     <h1>API Response Test</h1>
@@ -11,9 +22,12 @@
     <script>
         document.addEventListener('DOMContentLoaded', async function() {
             try {
+                // Get the API token from environment variables
+                const apiToken = getEnvVariable('NEXT_PUBLIC_API_TOKEN');
+                
                 const response = await fetch('https://studio.chicalitimes.com/items/posts', {
                     headers: {
-                        'Authorization': 'Bearer YOUR_ACCESS_TOKEN' // Replace with your actual token
+                        'Authorization': `Bearer ${apiToken}`
                     }
                 });
                 if (!response.ok) {
@@ -34,6 +48,8 @@
                     <p><strong>Emoji:</strong> ${post.post_emoji}</p>
                 `;
             } catch (error) {
+                const responseContainer = document.getElementById('api-response');
+                responseContainer.innerHTML = `<p style="color: red;">Error: ${error.message}</p>`;
                 console.error('Error fetching the API:', error);
             }
         });
